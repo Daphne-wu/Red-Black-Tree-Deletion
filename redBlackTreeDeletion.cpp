@@ -1,7 +1,7 @@
 //Daphne wu
 //Red-black tree insertion
 #include <iostream>
-#include <string>
+#include <cstring>
 
 
 using namespace std;
@@ -438,18 +438,19 @@ void replaceNode(Node* n, Node* child) {
 void deleteOneChild(Node* n) {
 	//n must have at most one non-leaf child (meaning it must have a non0null node)
 	Node* child = (n->right == NULL) ? n->left : n->right; //if the right child is null, then the child is the left child of node n, otheriwse it remains the right child
-	assert(child); //ensure that the child is valid
+	if (child) {
 
-	replaceNode(n, child);
-	if (n->isRed == false) {
-		if (child->isRed == true) {
-			child->isRed == false;
+		replaceNode(n, child);
+		if (n->isRed == false) {
+			if (child->isRed == true) {
+				child->isRed = false;
+			}
+			else {
+				deleteCase1(child);
+			}
 		}
-		else {
-			deleteCase1(child);
-		}
+		delete(n);
 	}
-	free(n);
 }
 
 //N and it's origional parent are black. n is new root, removed one black node from every path
